@@ -25,9 +25,13 @@ class Model:
 
 	def build_model(self):
 
+		# network architectures
+		d1 = tf.layers.dense(self.x, 128, activation=tf.nn.relu, name="dense1")
+		# d1 = tf.layers.dropout(d1, training=self.is_training)
 		# network architecture
-		d1 = tf.layers.dense(self.x, 512, activation=tf.nn.relu, name="dense1")
-		self.output = tf.layers.dense(d1, self.num_labels, name="dense2")
+		d2 = tf.layers.dense(d1, 64, activation=tf.nn.relu, name="dense2")
+		d2 = tf.layers.dropout(d2, training=self.is_training)
+		self.output = tf.layers.dense(d2, self.num_labels, name="dense3")
 
 		with tf.name_scope("loss"):
 			self.mse = tf.losses.mean_squared_error(labels=self.y, predictions=self.output)

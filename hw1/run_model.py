@@ -45,7 +45,7 @@ def main():
     # run environment
     import gym
     env = gym.make(config.envname)
-    env.seed(0)
+    # env.seed(0)
     max_steps = env.spec.timestep_limit
     returns = []
     observations = []

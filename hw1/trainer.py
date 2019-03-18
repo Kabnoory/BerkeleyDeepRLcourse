@@ -38,6 +38,7 @@ class Trainer:
 			loss = self.train_step()
 			losses.append(loss)
 		loss = np.mean(losses)
+		print("loss: ", loss)
 
 		cur_it = self.model.global_step_tensor.eval(self.sess)
 		summaries_dict = {

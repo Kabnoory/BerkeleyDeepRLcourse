@@ -30,8 +30,9 @@ class DataGenerator:
 		labels = labels.reshape(self.length, self.num_labels)
 
 		# create tensorflow dataset
+		print("Creating tensorized dataset, might take a few moments...")
 		self.dataset = tf.data.Dataset.from_tensor_slices((features, labels))
-		self.dataset = self.dataset.shuffle(buffer_size=10000)
+		self.dataset = self.dataset.shuffle(buffer_size=1000)
 		self.dataset = self.dataset.batch(self.config.batch_size)
 		self.dataset = self.dataset.repeat(self.config.num_epochs)
 		# create iterator

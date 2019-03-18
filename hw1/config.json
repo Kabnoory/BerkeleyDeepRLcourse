@@ -1,9 +1,9 @@
 {
-  "exp_name": "Hopper-Behavioral_Cloning",
-  "envname": "Hopper-v2",
+  "exp_name": "Humanoid-Behavioral_Cloning",
+  "envname": "Humanoid-v2",
   "render": true,
-  "data": "../../expert_data/Hopper-v2.pkl",
-  "num_epochs": 10,
+  "data": "../../expert_data/Humanoid-v2.pkl",
+  "num_epochs": 100,
   "learning_rate": 0.001,
   "batch_size": 16,
   "max_to_keep": 2
