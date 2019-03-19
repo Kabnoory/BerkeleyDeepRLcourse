@@ -2,13 +2,20 @@ import tensorflow as tf
 
 
 class Model:
-	def __init__(self, config, data=None, is_training=True):
+	def __init__(self, config, num_labels=None, output_types=None, output_shapes=None, is_training=True):
 		self.config = config
 		self.is_training = is_training
 		if is_training:
-			self.x = data.x
-			self.y = data.y
-			self.num_labels = data.num_labels
+			if (not output_types) or (not output_shapes) or (not num_labels):
+				print("ERROR: Missing required model training parameters")
+				sys.exit(1)
+
+			# handle constructions
+			self.handle = tf.placeholder(tf.string, shape=[])
+			self.iterator = tf.data.Iterator.from_string_handle(
+				self.handle, output_types, output_shapes)
+			self.x, self.y = self.iterator.get_next()
+			self.num_labels = num_labels
 		else:
 			self.x = tf.placeholder(tf.float64, shape=[None, self.config.num_features])
 			self.y = tf.placeholder(tf.float64, shape=[None, self.config.num_labels])
@@ -24,13 +31,11 @@ class Model:
 
 
 	def build_model(self):
-
 		# network architectures
 		d1 = tf.layers.dense(self.x, 128, activation=tf.nn.relu, name="dense1")
-		# d1 = tf.layers.dropout(d1, training=self.is_training)
-		# network architecture
-		d2 = tf.layers.dense(d1, 64, activation=tf.nn.relu, name="dense2")
-		d2 = tf.layers.dropout(d2, training=self.is_training)
+		d1 = tf.layers.dropout(d1, rate=0.2, training=self.is_training)
+		d2 = tf.layers.dense(d1, 128, activation=tf.nn.relu, name="dense2")
+		d2 = tf.layers.dropout(d2, rate=0.2, training=self.is_training)
 		self.output = tf.layers.dense(d2, self.num_labels, name="dense3")
 
 		with tf.name_scope("loss"):

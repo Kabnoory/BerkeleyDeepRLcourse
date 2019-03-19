@@ -1,0 +1,15 @@
+{
+  "exp_name": "Humanoid-Behavioral_Cloning-DAgger",
+  "envname": "Humanoid-v2",
+  "render": true,
+  "num_epochs": 10,
+  "learning_rate": 0.01,
+  "batch_size": 16,
+  "max_to_keep": 1,
+  "dagger": {
+    "first_rollout": 100,
+  	"num_rollouts": 20,
+  	"dagger_iter": 20,
+  	"expert_policy_file": "experts/Humanoid-v2.pkl"
+  }
+}

@@ -6,17 +6,22 @@ import tensorflow as tf
 
 
 class DataGenerator:
-	def __init__(self, config):
-		self.config = config
+	def __init__(self, config, raw=None):
 		# load data here
-		self.load_data()
+		self.config = config
+		if raw is not None:
+			self.load_raw_data(raw)
+		else:
+			self.load_data_from_config()
 
-	def load_data(self):
+	def load_data_from_config(self):
 		with open(self.config.data, 'rb') as f:
-			d = pickle.load(f)
-		features = d["observations"]
-		labels = d["actions"]
+			data = pickle.load(f)
+		self.load_raw_data(data)
 
+	def load_raw_data(self, data):
+		features = data["observations"]
+		labels = data["actions"]
 		# save length of data
 		self.length = len(labels)
 		self.num_labels = labels.shape[-1]
@@ -37,4 +42,3 @@ class DataGenerator:
 		self.dataset = self.dataset.repeat(self.config.num_epochs)
 		# create iterator
 		self.iterator = self.dataset.make_initializable_iterator()
-		self.x, self.y = self.iterator.get_next()
