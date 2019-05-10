@@ -1,4 +1,4 @@
-# HW 1: Imitation Learning
+# Imitation Learning
 
 This is my solution to Homework 1 of the course. There is three main parts to my code:
 - model.py: for network architecture and loss function
